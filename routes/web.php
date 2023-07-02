@@ -76,10 +76,9 @@ Route::group(['middleware' => ['auth', 'checkLevel:admin']], function () {
 
     Route::get('/audit', [AuditController::class, 'index']);
     Route::get('/audit/detail/{id}', [AuditController::class, 'detail']);
-
 });
 
 Route::group(['middleware' => ['auth', 'checkLevel:admin,user']], function () {
 
-    Route::get('/home', [HomeController::class, 'home'])->middleware(['auth', 'verified']);
+    Route::get('/home', [HomeController::class, 'home'])->middleware(['auth']);
 });
