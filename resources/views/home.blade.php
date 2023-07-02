@@ -46,24 +46,80 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
+                                            <th>Dari</th>
+                                            <th>Ke</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>
-                                                <a href="#" class="btn btn-primary btn-xs"><i
-                                                        class="fa fa-edit"></i>Edit</a>
-                                                <a href="#" class="btn btn-danger btn-xs"><i
-                                                        class="fa fa-trash"></i>Hapus</a>
-                                            </td>
-                                        </tr>
+                                        @foreach ($listMutasi as $mutasi)
+                                            <tr>
+                                                <td>{{ $mutasi->barang }}</td>
+                                                <td>{{ $mutasi->dari }}</td>
+                                                <td>{{ $mutasi->ke }}</td>
+                                                <td>
+                                                    <a href="#modalEditMutasi{{ $mutasi->id }}" data-toggle="modal"
+                                                         class="btn btn-primary btn-xs"><i
+                                                            class="fa fa-edit"></i>Edit</a>
+                                                    <form action="/mutasi/{{ $mutasi->id }}/destroy" method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-xs"><i
+                                                        class="fa fa-trash"></i>Hapus</button></form>
+                                                </td>
+                                            </tr>
+
+                                            <div class="modal fade" id="modalEditMutasi{{ $mutasi->id }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">Edit Mutasi</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form method="POST" enctype="multipart/form-data"
+                                                            action="/mutasi/{{ $mutasi->id }}/update">
+                                                            @csrf
+                                                            <div class="modal-body">
+
+                                                                <input type="hidden" value="{{ $mutasi->id }}" name="id"
+                                                                    required>
+
+                                                                <div class="form-group">
+                                                                    <label>Barang</label>
+                                                                    <input type="text" value="{{ $mutasi->barang }}"
+                                                                        class="form-control" name="barang"
+                                                                        placeholder="Barang ..." required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Dari</label>
+                                                                    <input type="text" value="{{ $mutasi->dari }}"
+                                                                        class="form-control" name="dari"
+                                                                        placeholder="Dari ..." required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Ke</label>
+                                                                    <input type="text" value="{{ $mutasi->ke }}"
+                                                                        class="form-control" name="ke"
+                                                                        placeholder="Ke ..." required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal"><i
+                                                                        class="fa fa-undo"></i>Close</button>
+                                                                <button type="submit" class="btn btn-primary"><i
+                                                                        class="fa fa-save"></i>Save changes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -74,6 +130,45 @@
         </div>
     </div>
 
+</div>
+
+<div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add Mutasi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="/mutasi/store">
+                @csrf
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Barang</label>
+                        <input type="text" class="form-control" name="barang" placeholder="Barang ..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dari</label>
+                        <input type="text" class="form-control" name="dari" placeholder="Dari ..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ke</label>
+                        <input type="text" class="form-control" name="ke" placeholder="Ke ..." required>
+                    </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-undo">
+                        </i>Close
+                    </button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 @include('sweetalert::alert')
 @endsection

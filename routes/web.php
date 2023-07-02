@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LokasiController;
+use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SendEmail;
 use App\Http\Controllers\UserController;
@@ -81,4 +82,7 @@ Route::group(['middleware' => ['auth', 'checkLevel:admin']], function () {
 Route::group(['middleware' => ['auth', 'checkLevel:admin,user']], function () {
 
     Route::get('/home', [HomeController::class, 'home'])->middleware(['auth']);
+    Route::post('/mutasi/store', [MutasiController::class, 'store']);
+    Route::delete('/mutasi/{id}/destroy', [MutasiController::class, 'destroy']);
+    Route::post('/mutasi/{id}/update', [MutasiController::class, 'update']);
 });
