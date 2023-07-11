@@ -26,7 +26,6 @@ class BarangController extends Controller
         $divisi = Divisi::all();
 
         return view('admin.master.barang.barang', compact('barang', 'kategori', 'lokasi', 'divisi'));
-
     }
 
     public function create()
@@ -54,7 +53,6 @@ class BarangController extends Controller
         ]);
 
         return redirect('/barang')->with('success', 'Data Berhasil Disimpan');
-
     }
 
     public function show($id)
@@ -87,7 +85,6 @@ class BarangController extends Controller
         $barang->save();
 
         return redirect('/barang')->with('success', 'Data Berhasil Diubah');
-
     }
 
     public function destroy($id)
@@ -98,7 +95,6 @@ class BarangController extends Controller
         $barang->delete();
 
         return redirect('/barang')->with('success', 'Data Berhasil Dihapus');
-
     }
 
     public function detail(Request $request, $id)
