@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('mutasi', function (Blueprint $table) {
             $table->id();
-            $table->string('barang');
-            $table->string('dari');
-            $table->string('ke');
+            $table->integer('id_barang');
+            $table->string('lokasi_lama');
+            $table->string('divisi_lama');
+            $table->string('lokasi_baru');
+            $table->string('divisi_baru');
             $table->timestamps();
         });
     }

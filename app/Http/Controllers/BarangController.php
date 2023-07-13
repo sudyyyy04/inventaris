@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\Divisi;
 use App\Models\Kategori;
 use App\Models\Lokasi;
+use App\Models\Mutasi;
 use Illuminate\Http\Request;
 
 date_default_timezone_set('Asia/Jakarta');
@@ -68,6 +69,24 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $barang = Barang::find($id);
+
+        if (boolval($request->mutasi)) {
+            $mutasi = new Mutasi();
+
+            if (Mutasi::where('id', $id)->exists()) {
+                $barang = Mutasi::where('id', $id)->latest()->first();
+                $mutasi->lokasi_lama = $barang->lokasi_baru;
+                $mutasi->divisi_lama = $barang->divisi_baru;
+            } else {
+                $mutasi->lokasi_lama = $barang->id_lokasi;
+                $mutasi->divisi_lama = $barang->id_divisi;
+            }
+            $mutasi->id_barang = $id;
+            $mutasi->lokasi_baru = $request->id_lokasi;
+            $mutasi->divisi_baru = $request->id_divisi;
+            $mutasi->save();
+            return redirect('/barang')->with('success', 'Mutasi Berhasil');
+        }
 
         $barang->id_kategori = $request->id_kategori;
         $barang->nama_user = $request->nama_user;

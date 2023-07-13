@@ -15,6 +15,5 @@ class MutasiSeeder extends Seeder
      */
     public function run()
     {
-        Mutasi::create(['barang' => 'Komputer', 'dari' => 'Nagoya', 'ke' => 'Panbil']);
     }
 }
