@@ -8,6 +8,6 @@ class HomeController extends Controller
 {
     public function home()
     {
-        return view('/home', ['listMutasi' => Mutasi::all()]);
+        return view('/home', ['list_mutasi' => Mutasi::with('barang', 'barang.kategori')->get()]);
     }
 }

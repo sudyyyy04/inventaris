@@ -32,4 +32,14 @@ class Barang extends Model implements Auditable
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    public function mutasi()
+    {
+        return $this->hasMany(Mutasi::class, 'id_barang');
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'id_kategori');
+    }
 }

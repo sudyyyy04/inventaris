@@ -15,4 +15,29 @@ class Mutasi extends Model
         'dari',
         'ke'
     ];
+
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'id_barang');
+    }
+
+    public function lokasi_lama()
+    {
+        return $this->belongsTo(Lokasi::class, 'lokasi_lama');
+    }
+
+    public function lokasi_baru()
+    {
+        return $this->belongsTo(Lokasi::class, 'lokasi_baru');
+    }
+
+    public function divisi_lama()
+    {
+        return $this->belongsTo(Divisi::class, 'divisi_lama');
+    }
+
+    public function divisi_baru()
+    {
+        return $this->belongsTo(Divisi::class, 'divisi_baru');
+    }
 }

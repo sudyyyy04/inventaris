@@ -45,23 +45,32 @@
                                 <table id="add-row" class="display table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Dari</th>
-                                            <th>Ke</th>
-                                            <th>Action</th>
+                                            <th>No</th>
+                                            <th>No Inventaris</th>
+                                            <th>Nama Barang</th>
+                                            <th>Old</th>
+                                            <th>New</th>
+                                            <th>Tanggal</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($listMutasi as $mutasi)
+                                        @foreach ($list_mutasi as $key => $mutasi)
                                             <tr>
-                                                <td>{{ $mutasi->barang }}</td>
-                                                <td>{{ $mutasi->dari }}</td>
-                                                <td>{{ $mutasi->ke }}</td>
+                                                {{-- <td>{{ $loop->index + $list_barang->firstItem() }}</td> --}}
+                                                <td>{{ ++$key }}</td>
+                                                <td>{{ $mutasi->barang->nomor_inventaris }}</td>
+                                                <td>{{ $mutasi->barang->kategori->nama_kategori }}</td>
                                                 <td>
-                                                    <a href="#modalEditMutasi{{ $mutasi->id }}" data-toggle="modal"
-                                                         class="btn btn-primary btn-xs"><i
-                                                            class="fa fa-edit"></i>Edit</a>
+                                                    <div>{{ $mutasi->lokasi_lama()->value('nama_lokasi') }}</div>
+                                                    <div>{{ $mutasi->divisi_lama()->value('nama_divisi') }}</div>
+                                                </td>
+                                                <td>
+                                                    <div>{{ $mutasi->lokasi_baru()->value('nama_lokasi') }}</div>
+                                                    <div>{{ $mutasi->divisi_baru()->value('nama_divisi') }}</div>
+                                                </td>
+                                                <td>{{ $mutasi->created_at }}</td>
+                                                <td>
                                                     <form action="/mutasi/{{ $mutasi->id }}/destroy" method="post">
                                                         @csrf
                                                         @method('DELETE')
