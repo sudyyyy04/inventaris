@@ -71,59 +71,187 @@
                                                 </td>
                                                 <td>{{ $mutasi->created_at }}</td>
                                                 <td>
-                                                    <form action="/mutasi/{{ $mutasi->id }}/destroy" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-xs"><i
-                                                        class="fa fa-trash"></i>Hapus</button></form>
+                                                    <div class="d-flex" style="gap: 5px">
+                                                        <form action="/mutasi/{{ $mutasi->id }}/destroy" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger btn-xs"><i
+                                                            class="fa fa-trash"></i>Hapus</button></form>
+                                                        <a href="#modalviewmutasibarang{{ $mutasi->id }}" data-toggle="modal"
+                                                            class="btn btn-primary btn-xs">View Mutasi</a>
+                                                        <a href="#modalbarang{{ $mutasi->id }}" data-toggle="modal"
+                                                            class="btn btn-primary btn-xs">View Detail</a>
+                                                    </div>
                                                 </td>
                                             </tr>
 
-                                            <div class="modal fade" id="modalEditMutasi{{ $mutasi->id }}" tabindex="-1"
+                                            <div class="modal fade" id="modalviewmutasibarang{{ $mutasi->id }}" tabindex="-1"
                                                 role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle">Edit Mutasi</h5>
+                                                            <h5 class="modal-title mb-0" id="exampleModalLongTitle">View
+                                                                Mutasi
+                                                            </h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <form method="POST" enctype="multipart/form-data"
-                                                            action="/mutasi/{{ $mutasi->id }}/update">
+                                                            action="/barang/{{ $mutasi->id }}/detail">
                                                             @csrf
                                                             <div class="modal-body">
-
-                                                                <input type="hidden" value="{{ $mutasi->id }}" name="id"
-                                                                    required>
-
-                                                                <div class="form-group">
-                                                                    <label>Barang</label>
-                                                                    <input type="text" value="{{ $mutasi->barang }}"
-                                                                        class="form-control" name="barang"
-                                                                        placeholder="Barang ..." required>
+    
+                                                                @foreach ($mutasi->barang->mutasi as $mutasi_barang)
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Tanggal </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ $mutasi_barang->created_at }}</p>
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label>Dari</label>
-                                                                    <input type="text" value="{{ $mutasi->dari }}"
-                                                                        class="form-control" name="dari"
-                                                                        placeholder="Dari ..." required>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Divisi Lama </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ \App\Models\Divisi::where('id', $mutasi_barang->divisi_lama)->value('nama_divisi') }}</p>
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <label>Ke</label>
-                                                                    <input type="text" value="{{ $mutasi->ke }}"
-                                                                        class="form-control" name="ke"
-                                                                        placeholder="Ke ..." required>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Divisi Baru </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ \App\Models\Divisi::where('id', $mutasi_barang->divisi_baru)->value('nama_divisi') }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Lokasi Lama </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ \App\Models\Lokasi::where('id', $mutasi_barang->lokasi_lama)->value('nama_lokasi') }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Lokasi Baru </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ \App\Models\Lokasi::where('id', $mutasi_barang->lokasi_baru)->value('nama_lokasi') }}</p>
+                                                                </div>
+                                                                <hr>
+                                                                @endforeach
+    
+                                                            </div>
+    
+    
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal fade" id="modalbarang{{ $mutasi->id }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title mb-0" id="exampleModalLongTitle">View
+                                                                Details
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <form method="POST" enctype="multipart/form-data"
+                                                            action="/barang/{{ $mutasi->barang->id }}/detail">
+                                                            @csrf
+                                                            <div class="modal-body">
+    
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Kategori </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->nama_kategori, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Nama User </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->nama_user, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Lokasi </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->nama_lokasi, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Divisi </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->nama_divisi, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Nomor Inventaris </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->nomor_inventaris, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Spesifikasi </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->spesifikasi, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Tanggal Beli </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ date('d F Y', strtotime($mutasi->barang->tanggal_beli)) }}
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Harga </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        Rp. {{ number_format($mutasi->barang->harga, 0, 100) }}</p>
+    
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Harga Penyusutan </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        Rp.
+                                                                        {{ number_format($mutasi->barang->harga_penyusutan, 0, 100) }}
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Keterangan </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ substr($mutasi->barang->keterangan, 0, 100) }}</p>
+                                                                </div>
+                                                                <div
+                                                                    class="d-flex justify-content-start mb-4 align-items-center">
+                                                                    <p style="width:150px; margin-right:30px !important"
+                                                                        class="m-0">Status </p>:
+                                                                    <p style=" margin-left:10px !important" class="m-0">
+                                                                        {{ \App\Models\Status::where('id', $mutasi->barang->id_status)->value('nama_status') }}</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal"><i
-                                                                        class="fa fa-undo"></i>Close</button>
-                                                                <button type="submit" class="btn btn-primary"><i
-                                                                        class="fa fa-save"></i>Save changes</button>
-                                                            </div>
+    
+    
                                                         </form>
                                                     </div>
                                                 </div>
@@ -141,39 +269,65 @@
 
 </div>
 
-<div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="addRowModal" tabindex="-1"
+    role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Add Mutasi</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLongTitle">Mutasi Barang
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="/mutasi/store">
+            <form method="POST"
+                action="/mutasi/store">
                 @csrf
                 <div class="modal-body">
-
-                    <div class="form-group">
-                        <label>Barang</label>
-                        <input type="text" class="form-control" name="barang" placeholder="Barang ..." required>
+                    <div
+                        class="d-flex justify-content-start mb-4 align-items-center">
+                        <p style="width:150px; margin-right:30px !important"
+                            class="m-0">Barang </p>:
+                        <select class="form-control m-0" name="id_barang"
+                            style="margin-left: 15px !important" required>
+                            @foreach($barang as $k)
+                            <option value="{{ $k->id}}">{{ $k->kategori->nama_kategori}}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label>Dari</label>
-                        <input type="text" class="form-control" name="dari" placeholder="Dari ..." required>
+                    <div
+                        class="d-flex justify-content-start mb-4 align-items-center">
+                        <p style="width:150px; margin-right:30px !important"
+                            class="m-0">Lokasi </p>:
+                        <select class="form-control m-0" name="id_lokasi"
+                            style="margin-left: 15px !important" required>
+                            @foreach($lokasi as $k)
+                            <option value="{{ $k->id}}">{{ $k->nama_lokasi}}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label>Ke</label>
-                        <input type="text" class="form-control" name="ke" placeholder="Ke ..." required>
+                    <div
+                        class="d-flex justify-content-start mb-4 align-items-center">
+                        <p style="width:150px; margin-right:30px !important"
+                            class="m-0">Divisi </p>:
+                        <select class="form-control m-0" name="id_divisi"
+                            style="margin-left: 15px !important" required>
+                            @foreach($divisi as $d)
+                            <option value="{{ $d->id}}">{{ $d->nama_divisi}}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
-
+                </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        <i class="fa fa-undo">
-                        </i>Close
-                    </button>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>Save changes</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal"><i
+                            class="fa fa-undo"></i>Close</button>
+                    <button type="submit" class="btn btn-primary"><i
+                            class="fa fa-save"></i>Save changes</button>
                 </div>
             </form>
         </div>
