@@ -18,6 +18,7 @@ class BarangSeeder extends Seeder
         Barang::insert([[
             "id_kategori" => "1",
             "id_lokasi" => "1",
+            "id_status" => "1",
             "nama_user" => "Sudy",
             "id_divisi" => "1",
             "nomor_inventaris" => "001",

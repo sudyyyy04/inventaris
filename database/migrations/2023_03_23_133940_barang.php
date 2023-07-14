@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('id_kategori');
             $table->integer('id_lokasi');
             $table->integer('id_divisi');
+            $table->integer('id_status');
             $table->string('nama_user')->nullable();
             $table->string('nomor_inventaris')->nullable();
             $table->string('spesifikasi')->nullable();

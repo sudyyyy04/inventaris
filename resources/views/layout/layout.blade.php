@@ -182,7 +182,11 @@
                                             <span class="sub-item">Data Barang</span>
                                         </a>
                                     </li>
-
+                                    <li>
+                                        <a href="/status">
+                                            <span class="sub-item">Data Status</span>
+                                        </a>
+                                    </li>
 
                                 </ul>
                             </div>
@@ -204,6 +208,13 @@
                             <a href="/audit">
                                 <i class="fas fa-paper-plane"></i>
                                 <p>Auditing</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/scrub">
+                                <i class="fas fa-paper-plane"></i>
+                                <p>Scrub</p>
                             </a>
                         </li>
                     </ul>

@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             KategoriSeeder::class,
             LokasiSeeder::class,
             DivisiSeeder::class,
-            BarangSeeder::class
+            BarangSeeder::class,
+            StatusSeeder::class,
         ]);
     }
 }

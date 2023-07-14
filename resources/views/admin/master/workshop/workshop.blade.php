@@ -85,7 +85,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="POST" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row->id }}/detail">
+                                                        action="/workshop/{{ $row->id }}/detail">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -192,7 +192,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="POST" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row->id }}/detail">
+                                                        action="/workshop/{{ $row->id }}/detail">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -256,7 +256,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="POST"
-                                                        action="/barang/{{ $row-> id }}/update">
+                                                        action="/workshop/{{ $row-> id }}/update">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -314,7 +314,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="POST" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row-> id }}/update">
+                                                        action="/workshop/{{ $row-> id }}/update">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -474,7 +474,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="GET" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row->id }}/destroy">
+                                                        action="/workshop/{{ $row->id }}/destroy">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -523,7 +523,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" enctype="multipart/form-data" action="/barang/store">
+            <form method="POST" enctype="multipart/form-data" action="/workshop/store">
                 @csrf
                 <div class="modal-body">
 
