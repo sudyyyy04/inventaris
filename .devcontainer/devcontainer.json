@@ -1,0 +1,27 @@
+// https://aka.ms/devcontainer.json
+{
+    "name": "Existing Docker Compose (Extend)",
+    "dockerComposeFile": ["../docker-compose.yml"],
+    "service": "laravel.test",
+    "workspaceFolder": "/var/www/html",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "amiralizadeh9480.laravel-extra-intellisense",
+                "austenc.laravel-blade-spacer",
+                "bmewburn.vscode-intelephense-client",
+                "codingyu.laravel-goto-view",
+                "imoca.php-doc-comment-vscode-plugin",
+                "onecentlin.laravel-blade",
+                "onecentlin.laravel5-snippets",
+                "shufo.vscode-blade-formatter"
+            ],
+            "settings": {}
+        }
+    },
+    "remoteUser": "sail",
+    "postCreateCommand": "chown -R 1000:1000 /var/www/html"
+    // "forwardPorts": [],
+    // "runServices": [],
+    // "shutdownAction": "none",
+}

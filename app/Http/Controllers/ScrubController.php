@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 date_default_timezone_set('Asia/Jakarta');
 
-class BarangController extends Controller
+class ScrubController extends Controller
 {
     public function index()
     {
@@ -22,7 +22,7 @@ class BarangController extends Controller
             ->join('divisi', 'divisi.id', '=', 'barang.id_divisi')
             ->latest()
             ->select('barang.*', 'kategori.nama_kategori', 'lokasi.nama_lokasi', 'divisi.nama_divisi')
-            ->where('id_status', 1)
+            ->where('id_status', 2)
             ->get();
         $lokasi = Lokasi::all();
         $kategori = Kategori::all();
@@ -30,10 +30,10 @@ class BarangController extends Controller
         $status = Status::all();
 
         $barang->map(function($item) {
-            $item->mutasi = Mutasi::where('id_barang', $item->id)->get();
+            $item->mutasi = Mutasi::where('id_scrub', $item->id)->get();
         });
 
-        return view('admin.master.barang.barang', compact('barang', 'kategori', 'lokasi', 'divisi', 'status'));
+        return view('admin.master.scrub.scrub', compact('barang', 'kategori', 'lokasi', 'divisi', 'status'));
     }
 
     public function create()
@@ -60,7 +60,7 @@ class BarangController extends Controller
 
         ]);
 
-        return redirect('/barang')->with('success', 'Data Berhasil Disimpan');
+        return redirect('/scrub')->with('success', 'Data Berhasil Disimpan');
     }
 
     public function show($id)
@@ -76,6 +76,24 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         $barang = Barang::find($id);
+
+        if (boolval($request->mutasi)) {
+            $mutasi = new Mutasi();
+
+            if (Mutasi::where('id', $id)->exists()) {
+                $barang = Mutasi::where('id', $id)->latest()->first();
+                $mutasi->lokasi_lama = $barang->lokasi_baru;
+                $mutasi->divisi_lama = $barang->divisi_baru;
+            } else {
+                $mutasi->lokasi_lama = $barang->id_lokasi;
+                $mutasi->divisi_lama = $barang->id_divisi;
+            }
+            $mutasi->id_scrub = $id;
+            $mutasi->lokasi_baru = $request->id_lokasi;
+            $mutasi->divisi_baru = $request->id_divisi;
+            $mutasi->save();
+            return redirect('/scrub')->with('success', 'Mutasi Berhasil');
+        }
 
         $barang->id_kategori = $request->id_kategori;
         $barang->nama_user = $request->nama_user;
@@ -93,7 +111,7 @@ class BarangController extends Controller
 
         $barang->save();
 
-        return redirect('/barang')->with('success', 'Data Berhasil Diubah');
+        return redirect('/scrub')->with('success', 'Data Berhasil Diubah');
     }
 
     public function destroy($id)
@@ -103,7 +121,7 @@ class BarangController extends Controller
 
         $barang->delete();
 
-        return redirect('/barang')->with('success', 'Data Berhasil Dihapus');
+        return redirect('/scrub')->with('success', 'Data Berhasil Dihapus');
     }
 
     public function detail(Request $request, $id)
@@ -124,6 +142,6 @@ class BarangController extends Controller
         $barang->updated_at = date('Y-m-d H:i:s');
         $barang->save();
 
-        return redirect('/barang')->with('success', 'Data Berhasil Diubah');
+        return redirect('/scrub')->with('success', 'Data Berhasil Diubah');
     }
 }

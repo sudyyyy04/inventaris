@@ -8,12 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Barang extends Model implements Auditable
+class Status extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'barang';
+    protected $table = 'status';
     protected $fillable = [
         'id_kategori',
         'id_lokasi',
@@ -32,14 +32,4 @@ class Barang extends Model implements Auditable
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
-
-    public function mutasi()
-    {
-        return $this->hasMany(Mutasi::class, 'id_barang');
-    }
-
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'id_kategori');
-    }
 }

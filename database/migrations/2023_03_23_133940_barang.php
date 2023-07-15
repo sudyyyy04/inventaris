@@ -17,10 +17,15 @@ return new class extends Migration
             $table->id();
             $table->integer('id_kategori');
             $table->integer('id_lokasi');
+            $table->integer('id_divisi');
+            $table->integer('id_status');
             $table->string('nama_user')->nullable();
             $table->string('nomor_inventaris')->nullable();
+            $table->string('spesifikasi')->nullable();
             $table->integer('harga')->nullable();
-            $table->date('tanggal_beli')->nullable();;
+            $table->integer('harga_penyusutan')->nullable();
+            $table->date('tanggal_beli')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

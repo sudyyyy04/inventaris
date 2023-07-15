@@ -60,6 +60,10 @@
                                                     class="btn btn-danger btn-xs"><i class="fa fa-trash"></i>Hapus</a>
                                                 <a href="#modalbarang{{ $row->id }}" data-toggle="modal"
                                                     class="btn btn-primary btn-xs">View</a>
+                                                <a href="#modalMutasiBarang{{ $row->id }}" data-toggle="modal"
+                                                    class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Mutasi</a>
+                                                <a href="#modalviewmutasibarang{{ $row->id }}" data-toggle="modal"
+                                                    class="btn btn-primary btn-xs">View Mutasi</a>
                                             </td>
 
 
@@ -81,7 +85,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="POST" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row->id }}/detail">
+                                                        action="/scrub/{{ $row->id }}/detail">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -174,6 +178,129 @@
                                             </div>
                                         </div>
 
+                                        <div class="modal fade" id="modalviewmutasibarang{{ $row->id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title mb-0" id="exampleModalLongTitle">View
+                                                            Mutasi
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form method="POST" enctype="multipart/form-data"
+                                                        action="/scrub/{{ $row->id }}/detail">
+                                                        @csrf
+                                                        <div class="modal-body">
+
+                                                            @foreach ($row->mutasi as $mutasi)
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Tanggal </p>:
+                                                                <p style=" margin-left:10px !important" class="m-0">
+                                                                    {{ $mutasi->created_at }}</p>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Divisi Lama </p>:
+                                                                <p style=" margin-left:10px !important" class="m-0">
+                                                                    {{ \App\Models\Divisi::where('id', $mutasi->divisi_lama)->value('nama_divisi') }}</p>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Divisi Baru </p>:
+                                                                <p style=" margin-left:10px !important" class="m-0">
+                                                                    {{ \App\Models\Divisi::where('id', $mutasi->divisi_baru)->value('nama_divisi') }}</p>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Lokasi Lama </p>:
+                                                                <p style=" margin-left:10px !important" class="m-0">
+                                                                    {{ \App\Models\Lokasi::where('id', $mutasi->lokasi_lama)->value('nama_lokasi') }}</p>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Lokasi Baru </p>:
+                                                                <p style=" margin-left:10px !important" class="m-0">
+                                                                    {{ \App\Models\Lokasi::where('id', $mutasi->lokasi_baru)->value('nama_lokasi') }}</p>
+                                                            </div>
+                                                            <hr>
+                                                            @endforeach
+
+                                                        </div>
+
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="modalMutasiBarang{{ $row->id }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Mutasi Barang
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form method="POST"
+                                                        action="/scrub/{{ $row-> id }}/update">
+                                                        @csrf
+                                                        <div class="modal-body">
+
+                                                            <input type="hidden" value="{{ $row->id }}" name="id"
+                                                                required>
+                                                            <input type="hidden" value="1" name="mutasi"
+                                                                required>
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Lokasi </p>:
+                                                                <select class="form-control m-0" name="id_lokasi"
+                                                                    style="margin-left: 15px !important" required>
+                                                                    @foreach($lokasi as $k)
+                                                                    <option value="{{ $k->id}}">{{ $k->nama_lokasi}}
+                                                                    </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div
+                                                                class="d-flex justify-content-start mb-4 align-items-center">
+                                                                <p style="width:150px; margin-right:30px !important"
+                                                                    class="m-0">Divisi </p>:
+                                                                <select class="form-control m-0" name="id_divisi"
+                                                                    style="margin-left: 15px !important" required>
+                                                                    @foreach($divisi as $d)
+                                                                    <option value="{{ $d->id}}">{{ $d->nama_divisi}}
+                                                                    </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal"><i
+                                                                    class="fa fa-undo"></i>Close</button>
+                                                            <button type="submit" class="btn btn-primary"><i
+                                                                    class="fa fa-save"></i>Save changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="modal fade" id="modalEditBarang{{ $row->id }}" tabindex="-1"
                                             role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-lg">
@@ -187,7 +314,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="POST" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row-> id }}/update">
+                                                        action="/scrub/{{ $row-> id }}/update">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -347,7 +474,7 @@
                                                         </button>
                                                     </div>
                                                     <form method="GET" enctype="multipart/form-data"
-                                                        action="/barang/{{ $row->id }}/destroy">
+                                                        action="/scrub/{{ $row->id }}/destroy">
                                                         @csrf
                                                         <div class="modal-body">
 
@@ -396,7 +523,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" enctype="multipart/form-data" action="/barang/store">
+            <form method="POST" enctype="multipart/form-data" action="/scrub/store">
                 @csrf
                 <div class="modal-body">
 

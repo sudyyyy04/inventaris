@@ -3,14 +3,18 @@
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LokasiController;
+use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ScrubController;
 use App\Http\Controllers\SendEmail;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WorkshopController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +72,27 @@ Route::group(['middleware' => ['auth', 'checkLevel:admin']], function () {
     Route::get('/barang/{id}/destroy', [BarangController::class, 'destroy']);
     Route::POST('/barang/{id}/detail', [BarangController::class, 'detail']);
 
+    //Data master scrub
+    Route::get('/scrub', [ScrubController::class, 'index']);
+    Route::POST('/scrub/store', [ScrubController::class, 'store']);
+    Route::POST('/scrub/{id}/update', [ScrubController::class, 'update']);
+    Route::get('/scrub/{id}/destroy', [ScrubController::class, 'destroy']);
+    Route::POST('/scrub/{id}/detail', [ScrubController::class, 'detail']);
+
+    //Data master workshop
+    Route::get('/workshop', [WorkshopController::class, 'index']);
+    Route::POST('/workshop/store', [WorkshopController::class, 'store']);
+    Route::POST('/workshop/{id}/update', [WorkshopController::class, 'update']);
+    Route::get('/workshop/{id}/destroy', [WorkshopController::class, 'destroy']);
+    Route::POST('/workshop/{id}/detail', [WorkshopController::class, 'detail']);
+
+    //Data master barang
+    Route::get('/status', [StatusController::class, 'index']);
+    Route::POST('/status/store', [StatusController::class, 'store']);
+    Route::POST('/status/{id}/update', [StatusController::class, 'update']);
+    Route::get('/status/{id}/destroy', [StatusController::class, 'destroy']);
+    Route::POST('/status/{id}/detail', [StatusController::class, 'detail']);
+
     //Laporan
     Route::get('/laporan', [LaporanController::class, 'index']);
     Route::get('/laporan/pdf', [LaporanController::class, 'pdf']);
@@ -76,10 +101,12 @@ Route::group(['middleware' => ['auth', 'checkLevel:admin']], function () {
 
     Route::get('/audit', [AuditController::class, 'index']);
     Route::get('/audit/detail/{id}', [AuditController::class, 'detail']);
-
 });
 
 Route::group(['middleware' => ['auth', 'checkLevel:admin,user']], function () {
 
-    Route::get('/home', [HomeController::class, 'home'])->middleware(['auth', 'verified']);
+    Route::get('/home', [HomeController::class, 'home'])->middleware(['auth']);
+    Route::post('/mutasi/store', [MutasiController::class, 'store']);
+    Route::delete('/mutasi/{id}/destroy', [MutasiController::class, 'destroy']);
+    Route::post('/mutasi/{id}/update', [MutasiController::class, 'update']);
 });
