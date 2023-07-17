@@ -11,10 +11,18 @@ class LaporanController extends Controller
 {
     public function index()
     {
-
         $barang = Barang::join('kategori', 'kategori.id', '=', 'barang.id_kategori')
             ->join('lokasi', 'lokasi.id', '=', 'barang.id_lokasi')
             ->select('barang.*', 'kategori.nama_kategori', 'lokasi.nama_lokasi')
+            ->when(request()->filled('tanggal_awal'), function ($query) {
+                $query->where('tanggal_beli', '>=', request('tanggal_awal'));
+            })
+            ->when(request()->filled('tanggal_akhir'), function ($query) {
+                $query->where('tanggal_beli', '<=', request('tanggal_akhir'));
+            })
+            ->when(request()->filled('status'), function ($query) {
+                $query->where('id_status', request('status'));
+            })
             ->latest()
             ->get();
 
@@ -30,6 +38,15 @@ class LaporanController extends Controller
         $barang = Barang::join('kategori', 'kategori.id', '=', 'barang.id_kategori')
             ->join('lokasi', 'lokasi.id', '=', 'barang.id_lokasi')
             ->select('barang.*', 'kategori.nama_kategori', 'lokasi.nama_lokasi')
+            ->when(request()->filled('tanggal_awal'), function ($query) {
+                $query->where('tanggal_beli', '>=', request('tanggal_awal'));
+            })
+            ->when(request()->filled('tanggal_akhir'), function ($query) {
+                $query->where('tanggal_beli', '<=', request('tanggal_akhir'));
+            })
+            ->when(request()->filled('status'), function ($query) {
+                $query->where('id_status', request('status'));
+            })
             ->latest()
             ->get();
         $lokasi = Lokasi::all();

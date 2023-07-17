@@ -13,7 +13,7 @@
                             <div class="d-flex align-items-center">
                                 <h4 class="card-title">Laporan Barang</h4>
                                 <div class="card-tools col d-flex justify-content-end">
-                                    <a href="/laporan/pdf" class="btn btn-primary btn-sm">
+                                    <a href="{{ url('/laporan/pdf?') . request()->getQueryString() }}" class="btn btn-primary btn-sm">
                                         <i class="fas fa-file-pdf">
                                             Ekspor PDF
                                         </i>
@@ -65,17 +65,25 @@
                                 <h4 class="card-title">Laporan Pertanggal</h4>
                             </div>
                             <div class="card-body">
-                                <form action="" method="post">
-                                    @csrf
+                                <form action="{{ url('laporan') }}" method="get">
                                     <div class="form-group">
                                         <label for="tanggal_awal">Tanggal Awal</label>
                                         <input type="date" name="tanggal_awal" id="tanggal_awal"
-                                            class="form-control form-control-sm" required>
+                                            class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group">
                                         <label for="tanggal_akhir">Tanggal Akhir</label>
                                         <input type="date" name="tanggal_akhir" id="tanggal_akhir"
-                                            class="form-control form-control-sm" required>
+                                            class="form-control form-control-sm">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control form-control-sm" name="status" id="status">
+                                            <option value="">All</option>
+                                            <option value="1">Active</option>
+                                            <option value="2">Scrub</option>
+                                            <option value="3">Work_shop</option>
+                                        </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-sm float-right">Submit</button>
                                 </form>
